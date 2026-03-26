@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZBS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-grid"></div>
+
+    <main class="app-shell">
+      <section class="auth-panel glass" id="authPanel">
+        <div class="brand auth-brand">
+          <div class="brand-mark">Z</div>
+          <div>
+            <p class="eyebrow">Social</p>
+            <h1>ZBS</h1>
+          </div>
+        </div>
+        <p class="hero-copy">Посты, фото, ответы и быстрый скролл в жёлто-чёрном стиле.</p>
+
+        <div class="tabs">
+          <button class="tab active" data-auth-tab="login">Вход</button>
+          <button class="tab" data-auth-tab="register">Регистрация</button>
+        </div>
+
+        <form id="loginForm" class="auth-form active">
+          <label>
+            Username
+            <input name="username" placeholder="your_username" required />
+          </label>
+          <label>
+            Пароль
+            <input name="password" type="password" placeholder="Введите пароль" required />
+          </label>
+          <button class="primary-btn" type="submit">Войти</button>
+        </form>
+
+        <form id="registerForm" class="auth-form">
+          <label>
+            Имя
+            <input name="name" placeholder="Твоё имя" required />
+          </label>
+          <label>
+            Username
+            <input name="username" placeholder="bez_probela" required />
+          </label>
+          <label>
+            Пароль
+            <input name="password" type="password" placeholder="Минимум 4 символа" required />
+          </label>
+          <button class="primary-btn" type="submit">Создать</button>
+        </form>
+        <p class="status-text" id="authStatus"></p>
+      </section>
+
+      <section class="workspace hidden" id="workspace">
+        <aside class="left-rail">
+          <div class="sidebar-card glass">
+            <div class="brand compact">
+              <div class="brand-mark">Z</div>
+              <div>
+                <p class="eyebrow">Live</p>
+                <h2>ZBS</h2>
+              </div>
+            </div>
+
+            <nav class="nav" aria-label="Навигация">
+              <button class="nav-link active" data-view="home" aria-label="Лента" title="Лента">
+                <span class="nav-icon">⌂</span>
+                <span class="nav-text">Лента</span>
+              </button>
+              <button class="nav-link" data-view="explore" aria-label="Поиск" title="Поиск">
+                <span class="nav-icon">⌕</span>
+                <span class="nav-text">Поиск</span>
+              </button>
+              <button class="nav-link" data-view="bookmarks" aria-label="Закладки" title="Закладки">
+                <span class="nav-icon">⌑</span>
+                <span class="nav-text">Сохранённое</span>
+              </button>
+              <button class="nav-link" data-view="profile" aria-label="Профиль" title="Профиль">
+                <span class="nav-icon">◉</span>
+                <span class="nav-text">Профиль</span>
+              </button>
+              <button class="nav-link hidden" id="adminNavBtn" data-view="admin" aria-label="Admin" title="Admin">
+                <span class="nav-icon">⚙</span>
+                <span class="nav-text">Admin</span>
+              </button>
+            </nav>
+
+            <button class="primary-btn compose-launch" id="openComposerBtn">Создать пост</button>
+            <div class="viewer-card glass-inner" id="viewerCard"></div>
+            <button class="ghost-btn" id="logoutBtn">Выйти</button>
+          </div>
+        </aside>
+
+        <section class="feed-column">
+          <header class="topbar glass">
+            <div class="topbar-title">
+              <h2 id="viewTitle">Лента</h2>
+            </div>
+            <label class="search-wrap">
+              <input id="searchInput" placeholder="Поиск" />
+            </label>
+            <button class="icon-compose-btn" id="openComposerTopBtn" aria-label="Создать пост" title="Создать пост">
+              +
+            </button>
+          </header>
+
+          <section class="feed-intro glass" id="composerBlock">
+            <button class="feed-prompt" id="openComposerCardBtn">
+              <span class="feed-prompt-main">Что нового?</span>
+              <span class="feed-prompt-sub">Пост или фото</span>
+            </button>
+          </section>
+
+          <section class="content-list" id="content"></section>
+        </section>
+
+        <aside class="right-rail">
+          <section class="glass side-card trends-card">
+            <p class="eyebrow">Now</p>
+            <h3>Темы</h3>
+            <div id="trends"></div>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <nav class="mobile-bottom-nav hidden" id="mobileBottomNav" aria-label="Мобильная навигация">
+      <button class="mobile-nav-link active" data-view="home" aria-label="Лента">⌂</button>
+      <button class="mobile-nav-link" data-view="explore" aria-label="Поиск">⌕</button>
+      <button class="mobile-nav-link hidden" id="adminMobileBtn" data-view="admin" aria-label="Admin">⚙</button>
+      <button class="mobile-compose" id="openComposerMobileBtn" aria-label="Создать пост">+</button>
+      <button class="mobile-nav-link" data-view="bookmarks" aria-label="Закладки">⌑</button>
+      <button class="mobile-nav-link" data-view="profile" aria-label="Профиль">◉</button>
+    </nav>
+
+    <section class="modal hidden" id="composerModal">
+      <div class="modal-backdrop" data-close-modal="true"></div>
+      <div class="modal-card glass">
+        <div class="modal-head">
+          <h3>Новый пост</h3>
+          <button class="modal-close" id="closeComposerBtn" aria-label="Закрыть">×</button>
+        </div>
+        <div class="modal-body">
+          <textarea id="composerInput" maxlength="280" placeholder="Что происходит?"></textarea>
+          <label class="upload-btn" for="composerImageInput">
+            <span>Фото</span>
+            <input id="composerImageInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
+          </label>
+          <div class="image-preview hidden" id="imagePreviewWrap">
+            <img id="imagePreview" alt="Предпросмотр" />
+            <button class="remove-image-btn" id="removeImageBtn" type="button">Убрать</button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <span id="composerCount">0 / 280</span>
+          <button class="primary-btn" id="publishBtn">Опубликовать</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="modal hidden" id="profileModal">
+      <div class="modal-backdrop" data-close-profile-modal="true"></div>
+      <div class="modal-card glass">
+        <div class="modal-head">
+          <h3>Редактировать профиль</h3>
+          <button class="modal-close" id="closeProfileBtn" aria-label="Закрыть">×</button>
+        </div>
+        <form class="modal-body" id="profileForm">
+          <label>
+            Имя
+            <input id="profileNameInput" name="name" maxlength="40" required />
+          </label>
+          <label>
+            Username
+            <input id="profileUsernameInput" name="username" maxlength="20" required />
+          </label>
+          <label>
+            Описание
+            <textarea id="profileBioInput" name="bio" maxlength="160"></textarea>
+          </label>
+          <label>
+            Аватар
+            <input id="profileAvatarInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
+          </label>
+          <div class="image-preview hidden" id="profileAvatarPreviewWrap">
+            <img id="profileAvatarPreview" alt="Аватар" />
+          </div>
+          <label>
+            Баннер
+            <input id="profileBannerInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
+          </label>
+          <div class="image-preview hidden" id="profileBannerPreviewWrap">
+            <img id="profileBannerPreview" alt="Баннер" />
+          </div>
+          <label>
+            Цвет аватара
+            <input id="profileColorInput" name="avatarColor" type="color" value="#ffd84d" />
+          </label>
+        </form>
+        <div class="modal-footer">
+          <span id="profileStatus" class="small-meta"></span>
+          <button class="primary-btn" id="saveProfileBtn">Сохранить</button>
+        </div>
+      </div>
+    </section>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

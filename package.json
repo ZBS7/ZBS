@@ -1,0 +1,10 @@
+{
+  "name": "zbs-social",
+  "version": "1.0.0",
+  "description": "ZBS - social network inspired by X with a custom yellow and black glassmorphism UI.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "MIT"
+}
